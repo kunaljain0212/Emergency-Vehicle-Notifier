@@ -1,6 +1,6 @@
 # emergency_notifier
 
-A new Flutter project.
+SE PROJECT: Emergency Vehicle Notifier
 
 ## Getting Started
 
