@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-class User extends ChangeNotifier {
+class UserModel extends ChangeNotifier {
   final String uid;
   final String name;
   final String email;
@@ -12,7 +12,7 @@ class User extends ChangeNotifier {
   final String? hospitalName;
   final String? identityProof;
 
-  User({
+  UserModel({
     required this.uid,
     required this.name,
     required this.email,
@@ -24,4 +24,19 @@ class User extends ChangeNotifier {
     this.hospitalName,
     this.identityProof,
   });
+
+  Map<String, dynamic> get getUser {
+    return {
+      'uid': uid,
+      'name': name,
+      'email': email,
+      'photoUrl': photoUrl,
+      'phoneNumber': phoneNumber,
+      'address': address,
+      'role': role,
+      'vehicleNumber': vehicleNumber,
+      'hospitalName': hospitalName,
+      'identityProof': identityProof,
+    };
+  }
 }

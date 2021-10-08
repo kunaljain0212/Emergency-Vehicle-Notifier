@@ -1,8 +1,12 @@
-import 'package:emergency_notifier/widgets/custom_button_light.dart';
-import 'package:emergency_notifier/widgets/custom_button_white.dart';
 import 'package:flutter/material.dart';
 
+import 'package:emergency_notifier/utils/custom_routes.dart';
+import 'package:emergency_notifier/widgets/custom_button_light.dart';
+import 'package:emergency_notifier/widgets/custom_button_white.dart';
+
 class LandingPage extends StatelessWidget {
+  const LandingPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,14 +50,20 @@ class LandingPage extends StatelessWidget {
             ),
             CustomButtonWhite(
               text: 'Continue as user',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(CustomRoutes.auth, arguments: 'user');
+              },
             ),
             const SizedBox(
               height: 20,
             ),
             CustomButtonLight(
               text: 'Continue as driver',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(CustomRoutes.auth, arguments: 'driver');
+              },
             ),
           ],
         ),
