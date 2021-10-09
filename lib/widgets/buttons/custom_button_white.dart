@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CustomButtonLight extends StatelessWidget {
+class CustomButtonWhite extends StatelessWidget {
   final String text;
   final Function onPressed;
 
-  const CustomButtonLight({required this.text, required this.onPressed});
+  const CustomButtonWhite(
+      {Key? key, required this.text, required this.onPressed})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -14,7 +17,7 @@ class CustomButtonLight extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         elevation: 0,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        primary: Colors.redAccent,
+        primary: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
         ),
@@ -24,7 +27,7 @@ class CustomButtonLight extends StatelessWidget {
         style: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: Colors.red,
         ),
       ),
     );

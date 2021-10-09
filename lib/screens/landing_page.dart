@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:emergency_notifier/utils/custom_routes.dart';
-import 'package:emergency_notifier/widgets/custom_button_light.dart';
-import 'package:emergency_notifier/widgets/custom_button_white.dart';
+import 'package:emergency_notifier/widgets/buttons/custom_button_light.dart';
+import 'package:emergency_notifier/widgets/buttons/custom_button_white.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);

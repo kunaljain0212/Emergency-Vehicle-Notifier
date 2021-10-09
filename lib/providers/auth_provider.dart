@@ -44,6 +44,7 @@ class AuthProvider {
   }
 
   Future logout() async {
+    await googleSignIn.disconnect();
     await _firebaseAuth.signOut();
   }
 }

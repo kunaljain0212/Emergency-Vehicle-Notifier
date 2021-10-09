@@ -1,40 +1,149 @@
-import 'package:emergency_notifier/providers/auth_provider.dart';
-import 'package:emergency_notifier/utils/custom_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
-class SignUpPage extends StatelessWidget {
+import 'package:emergency_notifier/widgets/buttons/custom_button_google.dart';
+import 'package:emergency_notifier/widgets/buttons/custom_button_light.dart';
+import 'package:emergency_notifier/widgets/inputs/custom_email_input.dart';
+import 'package:emergency_notifier/widgets/inputs/custom_password_input.dart';
+import 'package:emergency_notifier/widgets/inputs/custom_text_input.dart';
+
+class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
   @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final vehicleNumberController = TextEditingController();
+  final hospitalNameController = TextEditingController();
+
+  bool isPasswordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.addListener(() {
+      setState(() {});
+    });
+    emailController.addListener(() {
+      setState(() {});
+    });
+    passwordController.addListener(() {
+      setState(() {});
+    });
+    vehicleNumberController.addListener(() {
+      setState(() {});
+    });
+    hospitalNameController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  void showHidePassword() {
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
     final role = ModalRoute.of(context)!.settings.arguments;
 
     return Scaffold(
       body: Center(
-        child: ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            const SizedBox(
+              height: 80,
             ),
-          ),
-          onPressed: () async {
-            await authProvider.googleLogin();
-          },
-          icon: const FaIcon(
-            FontAwesomeIcons.google,
-            color: Colors.red,
-          ),
-          label: const Text(
-            'Sign up with Google',
-            style: TextStyle(
-              color: Colors.black,
+            CustomTextInput(
+              nameController,
+              'Enter you name',
+              'Name',
             ),
-          ),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomEmailInput(emailController),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomPasswordInput(
+              passwordController,
+              showHidePassword,
+              isPasswordVisible,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            role == 'driver'
+                ? CustomTextInput(
+                    vehicleNumberController,
+                    'Enter you vehicle number',
+                    'Vehicle Number',
+                  )
+                : Container(),
+            role == 'driver'
+                ? const SizedBox(
+                    height: 20,
+                  )
+                : Container(),
+            role == 'driver'
+                ? CustomTextInput(
+                    hospitalNameController,
+                    'Enter you hospital name',
+                    'Hospital Name',
+                  )
+                : Container(),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomButtonLight(
+              text: 'Sign up',
+              onPressed: () {
+                // print(nameController.text);
+                // print(emailController.text);
+                // print(passwordController.text);
+                // print(vehicleNumberController.text);
+                // print(hospitalNameController.text);
+
+                nameController.clear();
+                emailController.clear();
+                passwordController.clear();
+                vehicleNumberController.clear();
+                hospitalNameController.clear();
+              },
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const GoogleButton(),
+            const SizedBox(
+              height: 40,
+            ),
+            const Divider(
+              color: Colors.grey,
+              indent: 60,
+              endIndent: 60,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Already signed up?'),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Sign in'),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
