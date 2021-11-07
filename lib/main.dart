@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Muzzle',
         theme: lightThemeData,
-        darkTheme: darkThemeData,
+        // darkTheme: darkThemeData,
         routes: {
           MyRoutes.landing: (context) => const Wrapper(),
           MyRoutes.signUpLogin: (context) => const SignUpLoginView(),
