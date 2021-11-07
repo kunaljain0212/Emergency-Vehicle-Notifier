@@ -1,14 +1,12 @@
-import 'package:emergency_notifier/providers/auth_provider.dart';
-import 'package:emergency_notifier/screens/home_page.dart';
-import 'package:emergency_notifier/screens/signup_page.dart';
-import 'package:emergency_notifier/utils/auth_wrapper.dart';
+import 'package:emergency_notifier/common/routes.dart';
+import 'package:emergency_notifier/common/theme.dart';
+import 'package:emergency_notifier/views/wrappers/auth_wrapper.dart';
+import 'package:emergency_notifier/models/auth_model.dart';
+import 'package:emergency_notifier/services/auth_service.dart';
+import 'package:emergency_notifier/views/signup_login_view.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_core/firebase_core.dart';
-
-import 'package:emergency_notifier/screens/landing_page.dart';
-import 'package:emergency_notifier/utils/custom_routes.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,25 +17,23 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<AuthProvider>(
-          create: (_) => AuthProvider(),
-        ),
+        StreamProvider<AuthModel?>(
+          initialData: null,
+          create: (_) => AuthService().user,
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: GoogleFonts.lato().fontFamily,
-        ),
+        title: 'Muzzle',
+        theme: lightThemeData,
+        darkTheme: darkThemeData,
         routes: {
-          CustomRoutes.landingPage: (context) => const LandingPage(),
-          CustomRoutes.auth: (context) => const AuthWrapper(),
-          CustomRoutes.signupPage: (context) => const SignUpPage(),
-          CustomRoutes.home: (context) => const HomePage(),
+          MyRoutes.landing: (context) => const Wrapper(),
+          MyRoutes.signUpLogin: (context) => const SignUpLoginView(),
         },
       ),
     );
