@@ -3,10 +3,11 @@ import 'package:flutter/rendering.dart';
 import 'package:emergency_notifier/common/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:emergency_notifier/exceptions/firebase_auth_exception_codes.dart';
 import 'package:emergency_notifier/widgets/loading.dart';
 import 'package:emergency_notifier/services/auth_service.dart';
+
+enum UserType { driver, user }
 
 void _showErrorDialog(BuildContext context, String message) {
   final snackBar = SnackBar(
@@ -51,9 +52,12 @@ class _SignUpLoginViewState extends State<SignUpLoginView> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final hospitalNameController = TextEditingController();
+  final vehicleNumberController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
+  UserType? userType = UserType.user;
   bool isLogin = true;
   bool isPasswordVisible = false;
   bool isLoading = false;
@@ -161,6 +165,80 @@ class _SignUpLoginViewState extends State<SignUpLoginView> {
                                 ),
                         ),
                       ),
+                      !isLogin && userType == UserType.driver
+                          ? const SizedBox(height: defaultPadding)
+                          : Container(),
+                      !isLogin && userType == UserType.driver
+                          ? TextFormField(
+                              controller: hospitalNameController,
+                              validator: (value) {
+                                if (value?.isEmpty ?? false) {
+                                  return 'Please enter hospital name';
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.text,
+                              textInputAction: TextInputAction.done,
+                              decoration: const InputDecoration(
+                                hintText: 'Enter hospital name',
+                                labelText: 'Hospital Name',
+                              ),
+                            )
+                          : Container(),
+                      !isLogin && userType == UserType.driver
+                          ? const SizedBox(height: defaultPadding)
+                          : Container(),
+                      !isLogin && userType == UserType.driver
+                          ? TextFormField(
+                              controller: vehicleNumberController,
+                              validator: (value) {
+                                if (value?.isEmpty ?? false) {
+                                  return 'Please enter vehicle number';
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.name,
+                              textInputAction: TextInputAction.done,
+                              decoration: const InputDecoration(
+                                hintText: 'Enter your vehicle number',
+                                labelText: 'Vehicle Number',
+                              ),
+                            )
+                          : Container(),
+                      isLogin
+                          ? Container()
+                          : Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: ListTile(
+                                    title: const Text('User'),
+                                    leading: Radio<UserType>(
+                                      value: UserType.user,
+                                      groupValue: userType,
+                                      onChanged: (UserType? value) {
+                                        setState(() {
+                                          userType = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: ListTile(
+                                    title: const Text('Driver'),
+                                    leading: Radio<UserType>(
+                                      value: UserType.driver,
+                                      groupValue: userType,
+                                      onChanged: (UserType? value) {
+                                        setState(() {
+                                          userType = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                       const SizedBox(height: defaultPadding * 3),
                       ElevatedButton(
                         onPressed: () async {
@@ -176,7 +254,14 @@ class _SignUpLoginViewState extends State<SignUpLoginView> {
                                       passwordController.text)
                                   : await _auth.signUpWithEmailAndPassword(
                                       emailController.text,
-                                      passwordController.text);
+                                      passwordController.text,
+                                      nameController.text,
+                                      userType == UserType.driver
+                                          ? 'driver'
+                                          : 'user',
+                                      hospitalNameController.text,
+                                      vehicleNumberController.text,
+                                    );
                             } on FirebaseAuthException catch (error) {
                               setState(() {
                                 isLoading = false;
@@ -193,85 +278,6 @@ class _SignUpLoginViewState extends State<SignUpLoginView> {
                         child: Text('Sign ${isLogin ? 'in' : 'up'}'),
                       ),
                       const SizedBox(height: defaultPadding),
-                      Theme.of(context).brightness == Brightness.light
-                          ? OutlinedButton.icon(
-                              onPressed: () async {
-                                try {
-                                  await _auth.signInWithGoogle();
-                                } on PlatformException catch (error) {
-                                  var errorMessage = 'Authentication error';
-                                  final String msg = error.message ?? "";
-                                  if ((msg.contains('sign_in_canceled')) ||
-                                      msg.contains('sign_in_failed')) {
-                                    errorMessage =
-                                        'Sign in failed, try again later';
-                                  } else if (msg.contains('network_error')) {
-                                    errorMessage =
-                                        'Sign in failed due to network issue';
-                                  }
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                  _showErrorDialog(context, errorMessage);
-                                } catch (error) {
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                  const errorMessage =
-                                      'Could not sign you in, please try again later.';
-                                  _showErrorDialog(context, errorMessage);
-                                }
-                              },
-                              icon: const FaIcon(
-                                FontAwesomeIcons.google,
-                                color: primaryColor,
-                              ),
-                              label: Text(
-                                'Sign ${isLogin ? 'in' : 'up'} with Google',
-                                style: const TextStyle(color: primaryColor),
-                              ),
-                            )
-                          : ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                              ),
-                              onPressed: () async {
-                                try {
-                                  await _auth.signInWithGoogle();
-                                } on PlatformException catch (error) {
-                                  var errorMessage = 'Authentication error';
-                                  final String msg = error.message ?? "";
-                                  if ((msg.contains('sign_in_canceled')) ||
-                                      msg.contains('sign_in_failed')) {
-                                    errorMessage =
-                                        'Sign in failed, try again later';
-                                  } else if (msg.contains('network_error')) {
-                                    errorMessage =
-                                        'Sign in failed due to network issue';
-                                  }
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                  _showErrorDialog(context, errorMessage);
-                                } catch (error) {
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                  const errorMessage =
-                                      'Could not sign you in, please try again later.';
-                                  _showErrorDialog(context, errorMessage);
-                                }
-                              },
-                              icon: const FaIcon(
-                                FontAwesomeIcons.google,
-                                color: primaryColor,
-                              ),
-                              label: Text(
-                                'Sign ${isLogin ? 'in' : 'up'} with Google',
-                                style: const TextStyle(color: primaryColor),
-                              ),
-                            ),
-                      const SizedBox(height: defaultPadding * 3),
                       Divider(
                         color: Theme.of(context).brightness == Brightness.light
                             ? secondaryColorDarkTheme

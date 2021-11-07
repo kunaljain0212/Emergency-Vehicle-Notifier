@@ -1,3 +1,5 @@
+import 'package:emergency_notifier/services/user_service.dart';
+import 'package:emergency_notifier/views/signup_login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:emergency_notifier/models/auth_model.dart';
@@ -16,11 +18,28 @@ class AuthService {
   }
 
   //sign up with email and password
-  Future signUpWithEmailAndPassword(String email, String password) async {
+  Future signUpWithEmailAndPassword(String email, String password, String name,
+      String role, String? hospitalName, String? vehicleNumber) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
+      if (user != null) {
+        await user.updateDisplayName(name);
+        await user.updatePhotoURL(
+            'https://res.cloudinary.com/kunaaaaalll/image/upload/v1633810902/495-4952535_create-digital-profile-icon-blue-user-profile-icon_qxgvrr.png');
+      }
+      final User? updatedUser = _auth.currentUser;
+      print(role);
+      if (updatedUser != null) {
+        await UserService(uid: updatedUser.uid).createUser(
+            updatedUser.displayName!,
+            updatedUser.email!,
+            updatedUser.photoURL,
+            role,
+            hospitalName,
+            vehicleNumber);
+      }
       return _userFromFirebaseUser(user);
     } on FirebaseAuthException {
       rethrow;
