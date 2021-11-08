@@ -1,6 +1,7 @@
+import 'package:emergency_notifier/views/navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:emergency_notifier/views/news.dart';
-import 'package:emergency_notifier/views/profile.dart';
+import 'package:emergency_notifier/views/home.dart';
+import 'package:emergency_notifier/views/settings.dart';
 import 'package:emergency_notifier/widgets/bottom_nav.dart';
 
 class HomeView extends StatefulWidget {
@@ -10,29 +11,22 @@ class HomeView extends StatefulWidget {
   _HomeViewState createState() => _HomeViewState();
 }
 
-enum BottomIcons { home, account }
+enum BottomIcons { home, settings, navigation }
 
 class _HomeViewState extends State<HomeView> {
   // final AuthService _auth = AuthService();
 
   BottomIcons bottomIcons = BottomIcons.home;
 
-  // body: Center(
-  //   child: ElevatedButton(
-  //       onPressed: () {
-  //         _auth.signOut();
-  //       },
-  //       child: const Text('Logout')),
-  // ),
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          bottomIcons == BottomIcons.home ? const NewsView() : Container(),
-          bottomIcons == BottomIcons.account
-              ? const ProfileView()
+          bottomIcons == BottomIcons.home ? const Home() : Container(),
+          bottomIcons == BottomIcons.settings ? const Settings() : Container(),
+          bottomIcons == BottomIcons.navigation
+              ? const Navigation()
               : Container(),
           Align(
             alignment: Alignment.bottomLeft,
@@ -46,6 +40,17 @@ class _HomeViewState extends State<HomeView> {
                   BottomBar(
                     onPressed: () {
                       setState(() {
+                        bottomIcons = BottomIcons.navigation;
+                      });
+                    },
+                    bottomIcons:
+                        bottomIcons == BottomIcons.navigation ? true : false,
+                    icons: Icons.navigation,
+                    text: "Navigation",
+                  ),
+                  BottomBar(
+                    onPressed: () {
+                      setState(() {
                         bottomIcons = BottomIcons.home;
                       });
                     },
@@ -56,13 +61,13 @@ class _HomeViewState extends State<HomeView> {
                   BottomBar(
                     onPressed: () {
                       setState(() {
-                        bottomIcons = BottomIcons.account;
+                        bottomIcons = BottomIcons.settings;
                       });
                     },
                     bottomIcons:
-                        bottomIcons == BottomIcons.account ? true : false,
-                    icons: Icons.person,
-                    text: "Profile",
+                        bottomIcons == BottomIcons.settings ? true : false,
+                    icons: Icons.settings,
+                    text: "Settings",
                   ),
                 ],
               ),

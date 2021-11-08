@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emergency_notifier/models/user_model.dart';
-import 'package:emergency_notifier/views/signup_login_view.dart';
 
 class UserService {
   final String uid;
@@ -23,15 +22,14 @@ class UserService {
 
   //get user from document
   UserModel _userFromDocument(DocumentSnapshot doc) {
-    Map<String, String> data = doc.data() as Map<String, String>;
     return UserModel(
       uid: uid,
-      name: data['name'] ?? '',
-      email: data['email'] ?? '',
-      photoUrl: data['photoUrl'] ?? '',
-      role: data['role'] ?? '',
-      hospitalName: data['hospitalName'] ?? '',
-      vehicleNumber: data['vehicleNumber'] ?? '',
+      name: (doc.data() as dynamic)['name'] ?? '',
+      email: (doc.data() as dynamic)['email'] ?? '',
+      photoUrl: (doc.data() as dynamic)['photoUrl'] ?? '',
+      role: (doc.data() as dynamic)['role'] ?? '',
+      hospitalName: (doc.data() as dynamic)['hospitalName'] ?? '',
+      vehicleNumber: (doc.data() as dynamic)['vehicleNumber'] ?? '',
     );
   }
 
