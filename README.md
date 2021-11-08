@@ -1,9 +1,8 @@
 <div align ="center">
 # Emergency Vehicle Notifier
   
-[![GitHub issues](https://img.shields.io/github/issues/kunaljain0212/Emergency-Vehicle-Notifier?style=for-the-badge)](https://github.com/aaryak-shah/git-init-FOSS/issues) [![GitHub forks](https://img.shields.io/github/forks/kunaljain0212/Emergency-Vehicle-Notifier?style=for-the-badge)](https://github.com/kunaljain0212/Emergency-Vehicle-Notifier/network/members) [![GitHub stars](https://img.shields.io/github/stars/kunaljain0212/Emergency-Vehicle-Notifier?style=for-the-badge)](https://github.com/kunaljain0212/Emergency-Vehicle-Notifier/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/kunaljain0212/Emergency-Vehicle-Notifier?style=for-the-badge)](https://github.com/kunaljain0212/Emergency-Vehicle-Notifier/issues) [![GitHub forks](https://img.shields.io/github/forks/kunaljain0212/Emergency-Vehicle-Notifier?style=for-the-badge)](https://github.com/kunaljain0212/Emergency-Vehicle-Notifier/network/members) [![GitHub stars](https://img.shields.io/github/stars/kunaljain0212/Emergency-Vehicle-Notifier?style=for-the-badge)](https://github.com/kunaljain0212/Emergency-Vehicle-Notifier/stargazers)
   
-<div align ="center">
 
 # Features
 
@@ -29,8 +28,6 @@
 <img src="https://img.icons8.com/color/50/000000/firebase.png"/>
 
 </div>
-
-<div align ="center">
 
 # Local setup
 
