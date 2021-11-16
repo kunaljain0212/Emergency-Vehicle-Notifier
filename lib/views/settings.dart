@@ -32,14 +32,18 @@ class _SettingsState extends State<Settings> {
     });
   }
 
-  void _signOut() {
+  void _toggleLoading() {
     setState(() {
       _isLoading = !_isLoading;
     });
+  }
+
+  void _signOut() {
+    _toggleLoading();
     _auth.signOut();
   }
 
-  void _uploadProfilePicture() async {
+  Future<String> _uploadProfilePicture() async {
     final selectedImage = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
@@ -47,13 +51,15 @@ class _SettingsState extends State<Settings> {
     );
 
     if (selectedImage == null) {
-      return;
+      return '';
     }
 
     final path = selectedImage.files.single.path;
     final name = nanoid();
 
     final url = await _storage.uploadProfilePicture(name, File(path!));
+
+    return url;
   }
 
   @override
@@ -69,12 +75,13 @@ class _SettingsState extends State<Settings> {
               if (snapshot.hasData) {
                 return Scaffold(
                   body: ProfileView(
-                      _isEditing,
-                      _isLoading,
-                      _uploadProfilePicture,
-                      _toggleEditing,
-                      _signOut,
-                      userData),
+                    _isEditing,
+                    _toggleLoading,
+                    _uploadProfilePicture,
+                    _toggleEditing,
+                    _signOut,
+                    userData,
+                  ),
                 );
               } else {
                 return const Loading();

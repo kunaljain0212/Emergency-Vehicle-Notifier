@@ -31,9 +31,9 @@ class _HomeViewState extends State<HomeView> {
           Align(
             alignment: Alignment.bottomLeft,
             child: Container(
-              // color: Colors.white,
-
-              padding: const EdgeInsets.only(left: 40, right: 40, bottom: 20),
+              color: Colors.white,
+              padding: const EdgeInsets.only(
+                  left: 40, right: 40, bottom: 10, top: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
