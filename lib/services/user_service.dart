@@ -5,9 +5,11 @@ class UserService {
   final String uid;
   UserService({required this.uid});
 
+  // collection reference
   final CollectionReference _userCollection =
       FirebaseFirestore.instance.collection('users');
 
+  // create user entry in firestore
   Future<void> createUser(String name, String email, String? photoUrl,
       String role, String? hospitalName, String? vehicleNumber) async {
     return await _userCollection.doc(uid).set({
@@ -17,6 +19,23 @@ class UserService {
       'role': role,
       'hospitalName': hospitalName,
       'vehicleNumber': vehicleNumber,
+    });
+  }
+
+  //update user data
+  Future<void> updateUserData(
+      String name, String? hospitalName, String? vehicleNumber) async {
+    return await _userCollection.doc(uid).update({
+      'name': name,
+      'hospitalName': hospitalName,
+      'vehicleNumber': vehicleNumber,
+    });
+  }
+
+  //update profile picture
+  Future<void> updateUserPhoto(String photoUrl) async {
+    return await _userCollection.doc(uid).update({
+      'photoUrl': photoUrl,
     });
   }
 
@@ -33,6 +52,7 @@ class UserService {
     );
   }
 
+  //get user data stream from firestore
   Stream<UserModel> get user {
     return _userCollection.doc(uid).snapshots().map(_userFromDocument);
   }
