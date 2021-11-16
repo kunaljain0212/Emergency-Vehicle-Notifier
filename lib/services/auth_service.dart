@@ -30,7 +30,6 @@ class AuthService {
             'https://res.cloudinary.com/kunaaaaalll/image/upload/v1633810902/495-4952535_create-digital-profile-icon-blue-user-profile-icon_qxgvrr.png');
       }
       final User? updatedUser = _auth.currentUser;
-      print(role);
       if (updatedUser != null) {
         await UserService(uid: updatedUser.uid).createUser(
             updatedUser.displayName!,
