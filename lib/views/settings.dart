@@ -32,14 +32,10 @@ class _SettingsState extends State<Settings> {
     });
   }
 
-  void _toggleLoading() {
+  void _signOut() {
     setState(() {
       _isLoading = !_isLoading;
     });
-  }
-
-  void _signOut() {
-    _toggleLoading();
     _auth.signOut();
   }
 
@@ -76,7 +72,6 @@ class _SettingsState extends State<Settings> {
                 return Scaffold(
                   body: ProfileView(
                     _isEditing,
-                    _toggleLoading,
                     _uploadProfilePicture,
                     _toggleEditing,
                     _signOut,
