@@ -1,8 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.emergency_notifier">
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
    <application
         android:label="emergency_notifier"
         android:icon="@mipmap/ic_launcher">
@@ -40,7 +38,5 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-             <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyC3Bjob6SOBWsxqlVR3q82eGfc3B13aXKI"/>
     </application>
 </manifest>
