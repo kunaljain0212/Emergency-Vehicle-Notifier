@@ -7,19 +7,13 @@ import 'package:provider/provider.dart';
 
 class ProfileView extends StatefulWidget {
   final bool isEditing;
-  final Function toggleLoading;
   final Function uploadProfilePicture;
   final Function toggleEditing;
   final Function signOut;
   final UserModel? userData;
 
-  const ProfileView(
-      this.isEditing,
-      this.toggleLoading,
-      this.uploadProfilePicture,
-      this.toggleEditing,
-      this.signOut,
-      this.userData,
+  const ProfileView(this.isEditing, this.uploadProfilePicture,
+      this.toggleEditing, this.signOut, this.userData,
       {Key? key})
       : super(key: key);
 
@@ -118,41 +112,47 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     const SizedBox(height: defaultPadding),
-                    TextFormField(
-                      controller: hospitalNameController,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.done,
-                      decoration: InputDecoration(
-                        hintText: 'Enter hospital name',
-                        labelText: 'Hospital Name',
-                        enabled: widget.isEditing,
-                      ),
-                    ),
-                    const SizedBox(height: defaultPadding),
-                    TextFormField(
-                      controller: vehicleNumberController,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.done,
-                      decoration: InputDecoration(
-                        hintText: 'Enter vehicle number',
-                        labelText: 'Vehicle Number',
-                        enabled: widget.isEditing,
-                      ),
-                    ),
-                    const SizedBox(height: defaultPadding),
+                    widget.userData?.role == 'driver'
+                        ? TextFormField(
+                            controller: hospitalNameController,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                            decoration: InputDecoration(
+                              hintText: 'Enter hospital name',
+                              labelText: 'Hospital Name',
+                              enabled: widget.isEditing,
+                            ),
+                          )
+                        : Container(),
+                    widget.userData?.role == 'driver'
+                        ? const SizedBox(height: defaultPadding)
+                        : Container(),
+                    widget.userData?.role == 'driver'
+                        ? TextFormField(
+                            controller: vehicleNumberController,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                            decoration: InputDecoration(
+                              hintText: 'Enter vehicle number',
+                              labelText: 'Vehicle Number',
+                              enabled: widget.isEditing,
+                            ),
+                          )
+                        : Container(),
+                    widget.userData?.role == 'driver'
+                        ? const SizedBox(height: defaultPadding)
+                        : Container(),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () async {
                           if (widget.isEditing) {
-                            widget.toggleLoading();
                             await UserService(uid: authModel.uid)
                                 .updateUserData(
                               nameController.text,
                               hospitalNameController.text,
                               vehicleNumberController.text,
                             );
-                            widget.toggleLoading();
                           }
                           widget.toggleEditing();
                         },
