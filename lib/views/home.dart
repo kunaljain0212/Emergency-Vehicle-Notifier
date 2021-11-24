@@ -96,22 +96,6 @@ class _HomeState extends State<Home> {
       padding: const EdgeInsets.all(defaultPadding),
       child: Column(
         children: [
-          SizedBox(
-            height: 200,
-            child: StreamBuilder<List<QueryDocumentSnapshot<Object?>>>(
-              stream: EmergencyService(uid: authModel.uid).getUserEmergencies,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ImageCarousel(
-                      isLoading: _isLoading, imageList: _files);
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-          ),
           Expanded(
             child: Form(
               child: ListView(
