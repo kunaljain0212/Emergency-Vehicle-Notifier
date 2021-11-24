@@ -24,7 +24,7 @@ class LandingView extends StatelessWidget {
                 children: [
                   const Spacer(),
                   Text(
-                    'Tired of all the recoil?',
+                    'Saathi',
                     style: Theme.of(context)
                         .textTheme
                         .headline5!
@@ -34,7 +34,7 @@ class LandingView extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
                     child: Text(
-                      'Join our community to get all the latest gaming news and updates.',
+                      'Saathi, the helping hand in situations of Emergency.',
                       textAlign: TextAlign.center,
                     ),
                   ),

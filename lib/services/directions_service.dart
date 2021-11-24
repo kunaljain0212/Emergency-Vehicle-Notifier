@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -21,7 +22,7 @@ class DirectionsService {
   });
 
   Future<Map<String, dynamic>> getDirections() async {
-    print('DIRECTIONS API: GET DIRECTIONS METHOD');
+    debugPrint('DIRECTIONS API: GET DIRECTIONS METHOD');
     final uri = Uri.parse(
         'https://maps.googleapis.com/maps/api/directions/json?destination=place_id:$placeIdDestination&origin=place_id:$placeIdOrigin&key=$apiKey');
 
