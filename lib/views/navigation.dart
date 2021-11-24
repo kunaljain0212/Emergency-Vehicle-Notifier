@@ -157,14 +157,14 @@ class _NavigationState extends State<Navigation> {
                   AddressInput(
                     icon: Icons.gps_fixed,
                     controller: _originController,
-                    hint: 'River view colony, morar',
+                    hint: 'Enter your start location',
                     onTap: () => _fetchLocation(_originController, true),
                     isEnabled: true,
                   ),
                   AddressInput(
                     icon: Icons.place_sharp,
                     controller: _destinationController,
-                    hint: 'River view colony, morar',
+                    hint: 'Enter your end location',
                     onTap: () => _fetchLocation(_destinationController, false),
                     isEnabled: true,
                   ),
@@ -172,7 +172,6 @@ class _NavigationState extends State<Navigation> {
               ),
               IconButton(
                 onPressed: () async {
-                  print('check for directions');
                   final directions = await DirectionsService(
                     destination: _destination!,
                     origin: _origin!,
@@ -195,9 +194,10 @@ class _NavigationState extends State<Navigation> {
         ),
       ),
       body: CustomGoogleMaps(
-          markers: markers,
-          polylines: polylines,
-          mapsController: mapsController),
+        markers: markers,
+        polylines: polylines,
+        mapsController: mapsController,
+      ),
     );
   }
 }
