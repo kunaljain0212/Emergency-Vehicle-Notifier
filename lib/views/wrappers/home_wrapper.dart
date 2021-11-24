@@ -27,8 +27,8 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     final authModel = Provider.of<AuthModel>(context);
     return Scaffold(
-      body: FutureBuilder<UserModel>(
-        future: UserService(uid: authModel.uid).getUserData(),
+      body: StreamBuilder<UserModel>(
+        stream: UserService(uid: authModel.uid).user,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final userModel = snapshot.data;

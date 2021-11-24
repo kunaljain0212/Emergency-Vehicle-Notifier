@@ -146,6 +146,10 @@ class _HomeState extends State<Home> {
                     },
                   ),
                   const SizedBox(height: defaultPadding),
+                  ImageCarousel(
+                    isLoading: _isLoading,
+                    imageList: _files,
+                  ),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(

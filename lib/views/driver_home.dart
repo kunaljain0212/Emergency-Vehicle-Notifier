@@ -31,7 +31,12 @@ class _DriverHomeState extends State<DriverHome> {
         if (snapshot.hasData) {
           final emergencies = snapshot.data;
           return Padding(
-            padding: const EdgeInsets.all(defaultPadding),
+            padding: const EdgeInsets.fromLTRB(
+              defaultPadding,
+              defaultPadding,
+              defaultPadding,
+              defaultPadding * 5,
+            ),
             child: ListView.builder(
               itemCount: emergencies?.length,
               itemBuilder: (context, index) {
