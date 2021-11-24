@@ -14,4 +14,14 @@ class Storage {
     String url = await taskSnapshot.ref.getDownloadURL();
     return url;
   }
+
+  Future<String> uploadEmergencyImage(String path, File image) async {
+    Reference ref = _storage.ref('/emergencyImages').child(path);
+    UploadTask uploadTask = ref.putFile(image);
+    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {
+      print('Uploaded');
+    });
+    String url = await taskSnapshot.ref.getDownloadURL();
+    return url;
+  }
 }

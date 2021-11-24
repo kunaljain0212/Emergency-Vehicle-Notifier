@@ -1,5 +1,4 @@
 import 'package:emergency_notifier/services/user_service.dart';
-import 'package:emergency_notifier/views/signup_login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:emergency_notifier/models/auth_model.dart';
