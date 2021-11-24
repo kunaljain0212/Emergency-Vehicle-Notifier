@@ -3,7 +3,6 @@ import 'package:emergency_notifier/common/constants.dart';
 import 'package:emergency_notifier/models/auth_model.dart';
 import 'package:emergency_notifier/services/emergency_service.dart';
 import 'package:emergency_notifier/widgets/driver_home_card.dart';
-import 'package:emergency_notifier/widgets/image_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
