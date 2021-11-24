@@ -56,4 +56,10 @@ class UserService {
   Stream<UserModel> get user {
     return _userCollection.doc(uid).snapshots().map(_userFromDocument);
   }
+
+  //get user data from firestore
+  Future<UserModel> getUserData() async {
+    DocumentSnapshot doc = await _userCollection.doc(uid).get();
+    return _userFromDocument(doc);
+  }
 }

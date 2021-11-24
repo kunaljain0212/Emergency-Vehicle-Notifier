@@ -1,5 +1,4 @@
 import 'package:emergency_notifier/common/constants.dart';
-import 'package:emergency_notifier/common/routes.dart';
 import 'package:flutter/material.dart';
 
 class LandingView extends StatelessWidget {
