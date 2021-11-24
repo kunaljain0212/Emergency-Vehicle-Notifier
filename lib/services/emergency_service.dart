@@ -18,28 +18,34 @@ class EmergencyService {
   ) async {
     final location = await Location().getLocation();
     final address = await GeocodeService().fetchAddress(
-        LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0));
-    return await _emergencyCollection.add({
-      'description': description,
-      'images': images,
-      'location': GeoPoint(location.latitude ?? 0.0, location.longitude ?? 0.0),
-      'address': address,
-      'createdBy': uid,
-      'handledBy': '',
-      'severity': severity,
-      'status': status,
-      'timestamp': FieldValue.serverTimestamp(),
-    });
+      LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0),
+    );
+    return await _emergencyCollection.add(
+      {
+        'description': description,
+        'images': images,
+        'location':
+            GeoPoint(location.latitude ?? 0.0, location.longitude ?? 0.0),
+        'address': address,
+        'createdBy': uid,
+        'handledBy': '',
+        'severity': severity,
+        'status': status,
+        'timestamp': FieldValue.serverTimestamp(),
+      },
+    );
   }
 
   //accept emergency
   Future<void> acceptEmergency(String emergencyId) async {
     final emergency = await _emergencyCollection.doc(emergencyId).get();
     if (emergency.exists) {
-      await _emergencyCollection.doc(emergencyId).update({
-        'status': 'accepted',
-        'handledBy': uid,
-      });
+      await _emergencyCollection.doc(emergencyId).update(
+        {
+          'status': 'accepted',
+          'handledBy': uid,
+        },
+      );
     }
   }
 
@@ -47,9 +53,11 @@ class EmergencyService {
   Future<void> markAsHandled(String emergencyId) async {
     final emergency = await _emergencyCollection.doc(emergencyId).get();
     if (emergency.exists) {
-      await _emergencyCollection.doc(emergencyId).update({
-        'status': 'handled',
-      });
+      await _emergencyCollection.doc(emergencyId).update(
+        {
+          'status': 'handled',
+        },
+      );
     }
   }
 

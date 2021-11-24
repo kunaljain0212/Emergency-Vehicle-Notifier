@@ -58,14 +58,19 @@ class _HomeState extends State<Home> {
     for (var file in selectedImages.files) {
       final path = file.path;
       final name = nanoid();
-      final url = await _storage.uploadEmergencyImage(name, File(path!));
+      final url = await _storage.uploadEmergencyImage(
+        name,
+        File(path!),
+      );
       uploadedFiles.add(url);
     }
 
-    setState(() {
-      _files = uploadedFiles;
-      _isLoading = false;
-    });
+    setState(
+      () {
+        _files = uploadedFiles;
+        _isLoading = false;
+      },
+    );
   }
 
   Future<void> _raiseEmergency(String uid) async {
@@ -75,11 +80,13 @@ class _HomeState extends State<Home> {
       _currentSliderValue,
       'pending',
     );
-    setState(() {
-      _files = [];
-      _currentSliderValue = 0;
-      descriptionController.text = '';
-    });
+    setState(
+      () {
+        _files = [];
+        _currentSliderValue = 0;
+        descriptionController.text = '';
+      },
+    );
   }
 
   @override
@@ -147,9 +154,11 @@ class _HomeState extends State<Home> {
                     activeColor: primaryColor,
                     inactiveColor: primaryColor.withOpacity(0.3),
                     onChanged: (double value) {
-                      setState(() {
-                        _currentSliderValue = value;
-                      });
+                      setState(
+                        () {
+                          _currentSliderValue = value;
+                        },
+                      );
                     },
                   ),
                   const SizedBox(height: defaultPadding),

@@ -27,15 +27,19 @@ class _SettingsState extends State<Settings> {
   bool _isEditing = false;
 
   void _toggleEditing() {
-    setState(() {
-      _isEditing = !_isEditing;
-    });
+    setState(
+      () {
+        _isEditing = !_isEditing;
+      },
+    );
   }
 
   void _signOut() {
-    setState(() {
-      _isLoading = !_isLoading;
-    });
+    setState(
+      () {
+        _isLoading = !_isLoading;
+      },
+    );
     _auth.signOut();
   }
 

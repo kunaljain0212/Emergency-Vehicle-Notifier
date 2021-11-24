@@ -12,31 +12,37 @@ class UserService {
   // create user entry in firestore
   Future<void> createUser(String name, String email, String? photoUrl,
       String role, String? hospitalName, String? vehicleNumber) async {
-    return await _userCollection.doc(uid).set({
-      'name': name,
-      'email': email,
-      'photoUrl': photoUrl,
-      'role': role,
-      'hospitalName': hospitalName,
-      'vehicleNumber': vehicleNumber,
-    });
+    return await _userCollection.doc(uid).set(
+      {
+        'name': name,
+        'email': email,
+        'photoUrl': photoUrl,
+        'role': role,
+        'hospitalName': hospitalName,
+        'vehicleNumber': vehicleNumber,
+      },
+    );
   }
 
   //update user data
   Future<void> updateUserData(
       String name, String? hospitalName, String? vehicleNumber) async {
-    return await _userCollection.doc(uid).update({
-      'name': name,
-      'hospitalName': hospitalName,
-      'vehicleNumber': vehicleNumber,
-    });
+    return await _userCollection.doc(uid).update(
+      {
+        'name': name,
+        'hospitalName': hospitalName,
+        'vehicleNumber': vehicleNumber,
+      },
+    );
   }
 
   //update profile picture
   Future<void> updateUserPhoto(String photoUrl) async {
-    return await _userCollection.doc(uid).update({
-      'photoUrl': photoUrl,
-    });
+    return await _userCollection.doc(uid).update(
+      {
+        'photoUrl': photoUrl,
+      },
+    );
   }
 
   //get user from document

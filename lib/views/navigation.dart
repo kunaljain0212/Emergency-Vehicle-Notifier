@@ -111,31 +111,33 @@ class _NavigationState extends State<Navigation> {
       ),
     );
     if (result != null) {
-      setState(() {
-        txcontroller.text = result['placeData'].description;
-        if (isOrigin) {
-          _origin = LatLng(result['latlng']['lat'], result['latlng']['lng']);
-          _placeIdOrigin = result['placeData'].placeId;
-        } else {
-          _destination =
-              LatLng(result['latlng']['lat'], result['latlng']['lng']);
-          _placeIdDestination = result['placeData'].placeId;
-        }
-        _setMarker(
-          LatLng(
-            result['latlng']['lat'],
-            result['latlng']['lng'],
-          ),
-          sessionToken,
-          isOrigin ? 'Origin' : 'Destination',
-        );
-        _animateCamera(
-          LatLng(
-            result['latlng']['lat'],
-            result['latlng']['lng'],
-          ),
-        );
-      });
+      setState(
+        () {
+          txcontroller.text = result['placeData'].description;
+          if (isOrigin) {
+            _origin = LatLng(result['latlng']['lat'], result['latlng']['lng']);
+            _placeIdOrigin = result['placeData'].placeId;
+          } else {
+            _destination =
+                LatLng(result['latlng']['lat'], result['latlng']['lng']);
+            _placeIdDestination = result['placeData'].placeId;
+          }
+          _setMarker(
+            LatLng(
+              result['latlng']['lat'],
+              result['latlng']['lng'],
+            ),
+            sessionToken,
+            isOrigin ? 'Origin' : 'Destination',
+          );
+          _animateCamera(
+            LatLng(
+              result['latlng']['lat'],
+              result['latlng']['lng'],
+            ),
+          );
+        },
+      );
     }
   }
 
@@ -150,22 +152,24 @@ class _NavigationState extends State<Navigation> {
           preferredSize: const Size.fromHeight(80),
           child: Row(
             children: [
-              Column(children: [
-                AddressInput(
-                  icon: Icons.gps_fixed,
-                  controller: _originController,
-                  hint: 'River view colony, morar',
-                  onTap: () => _fetchLocation(_originController, true),
-                  isEnabled: true,
-                ),
-                AddressInput(
-                  icon: Icons.place_sharp,
-                  controller: _destinationController,
-                  hint: 'River view colony, morar',
-                  onTap: () => _fetchLocation(_destinationController, false),
-                  isEnabled: true,
-                ),
-              ]),
+              Column(
+                children: [
+                  AddressInput(
+                    icon: Icons.gps_fixed,
+                    controller: _originController,
+                    hint: 'River view colony, morar',
+                    onTap: () => _fetchLocation(_originController, true),
+                    isEnabled: true,
+                  ),
+                  AddressInput(
+                    icon: Icons.place_sharp,
+                    controller: _destinationController,
+                    hint: 'River view colony, morar',
+                    onTap: () => _fetchLocation(_destinationController, false),
+                    isEnabled: true,
+                  ),
+                ],
+              ),
               IconButton(
                 onPressed: () async {
                   final directions = await DirectionsService(

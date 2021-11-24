@@ -65,15 +65,21 @@ class _SignUpLoginViewState extends State<SignUpLoginView> {
   @override
   void initState() {
     super.initState();
-    nameController.addListener(() {
-      setState(() {});
-    });
-    emailController.addListener(() {
-      setState(() {});
-    });
-    passwordController.addListener(() {
-      setState(() {});
-    });
+    nameController.addListener(
+      () {
+        setState(() {});
+      },
+    );
+    emailController.addListener(
+      () {
+        setState(() {});
+      },
+    );
+    passwordController.addListener(
+      () {
+        setState(() {});
+      },
+    );
   }
 
   @override
@@ -149,9 +155,11 @@ class _SignUpLoginViewState extends State<SignUpLoginView> {
                                 )
                               : IconButton(
                                   onPressed: () {
-                                    setState(() {
-                                      isPasswordVisible = !isPasswordVisible;
-                                    });
+                                    setState(
+                                      () {
+                                        isPasswordVisible = !isPasswordVisible;
+                                      },
+                                    );
                                   },
                                   icon: isPasswordVisible
                                       ? const Icon(
@@ -216,9 +224,11 @@ class _SignUpLoginViewState extends State<SignUpLoginView> {
                                       value: UserType.user,
                                       groupValue: userType,
                                       onChanged: (UserType? value) {
-                                        setState(() {
-                                          userType = value;
-                                        });
+                                        setState(
+                                          () {
+                                            userType = value;
+                                          },
+                                        );
                                       },
                                     ),
                                   ),
@@ -230,9 +240,11 @@ class _SignUpLoginViewState extends State<SignUpLoginView> {
                                       value: UserType.driver,
                                       groupValue: userType,
                                       onChanged: (UserType? value) {
-                                        setState(() {
-                                          userType = value;
-                                        });
+                                        setState(
+                                          () {
+                                            userType = value;
+                                          },
+                                        );
                                       },
                                     ),
                                   ),
@@ -245,9 +257,11 @@ class _SignUpLoginViewState extends State<SignUpLoginView> {
                           final isValid = formKey.currentState?.validate();
                           if (isValid ?? true) {
                             try {
-                              setState(() {
-                                isLoading = true;
-                              });
+                              setState(
+                                () {
+                                  isLoading = true;
+                                },
+                              );
                               isLogin
                                   ? await _auth.signInWithEmailAndPassword(
                                       emailController.text,
@@ -263,9 +277,11 @@ class _SignUpLoginViewState extends State<SignUpLoginView> {
                                       vehicleNumberController.text,
                                     );
                             } on FirebaseAuthException catch (error) {
-                              setState(() {
-                                isLoading = false;
-                              });
+                              setState(
+                                () {
+                                  isLoading = false;
+                                },
+                              );
                               final String errorMessage =
                                   getMessageFromErrorCode(error);
                               _showErrorDialog(
@@ -296,9 +312,11 @@ class _SignUpLoginViewState extends State<SignUpLoginView> {
                           ),
                           TextButton(
                             onPressed: () {
-                              setState(() {
-                                isLogin = !isLogin;
-                              });
+                              setState(
+                                () {
+                                  isLogin = !isLogin;
+                                },
+                              );
                             },
                             child: Text(
                               'Sign ${isLogin ? 'up' : 'in'}',

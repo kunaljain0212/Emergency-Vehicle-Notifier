@@ -32,7 +32,9 @@ class PlaceApiProvider {
       final result = json.decode(response.body);
       if (result['status'] == 'OK') {
         return result['predictions']
-            .map<Suggestion>((p) => Suggestion(p['place_id'], p['description']))
+            .map<Suggestion>(
+              (p) => Suggestion(p['place_id'], p['description']),
+            )
             .toList();
       }
       if (result['status'] == 'ZERO_RESULTS') {
