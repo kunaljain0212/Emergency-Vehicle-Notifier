@@ -11,14 +11,17 @@ class LocationService extends ChangeNotifier {
 
   bool isLocationServiceEnabled = true;
 
+  //Constructor
   LocationService() {
     _location = Location();
   }
 
+  //initialize user location
   initialization() async {
     await getUserLocation();
   }
 
+  //fetch current location of the User
   getUserLocation() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
