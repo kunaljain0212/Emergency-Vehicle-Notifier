@@ -3,10 +3,12 @@
 # Emergency Vehicle Notifier
 </div>
 
-![screen123](https://user-images.githubusercontent.com/56069235/140763070-a8fb6aa9-5865-4a5e-a132-c290488dbadb.png)
-![screen456](https://user-images.githubusercontent.com/56069235/140764088-83c983b6-782e-46fe-95c8-63cc68e2ec3d.png)
-![screen789](https://user-images.githubusercontent.com/56069235/140764597-0671fc67-b0ed-4088-9a62-066cc8387c62.png)
-![screen1011](https://user-images.githubusercontent.com/56069235/140765015-7be65566-d1d3-48a7-bbbb-a9ea4c634029.png)
+![PhotoGrid_Site_1637782899448](https://user-images.githubusercontent.com/56069235/143303450-b61d98cb-6c2c-4005-a993-5a13a12b5db4.png)
+![PhotoGrid_Site_1637783332227](https://user-images.githubusercontent.com/56069235/143304368-a23f6fd4-1b70-42a4-a458-e2519b3e1554.png)
+![PhotoGrid_Site_1637783614338](https://user-images.githubusercontent.com/56069235/143304920-ed1c205f-1178-4201-b477-7392a764fc15.png)
+![PhotoGrid_Site_1637783792062](https://user-images.githubusercontent.com/56069235/143305266-c2637472-fc99-451a-af7e-141f3d09ab42.png)
+
+
 
 
 <div align ="center">
@@ -75,8 +77,11 @@ https://drive.google.com/drive/folders/1NxcV5XX6MBRcqFBw4remwcIEKM7D8VcS?usp=sha
 
 </div>
 
+<div align= center>
+
 ## Contributors
 
+	
 <br/>
 <table>
 	<tr>
@@ -88,4 +93,5 @@ https://drive.google.com/drive/folders/1NxcV5XX6MBRcqFBw4remwcIEKM7D8VcS?usp=sha
 	</tr>
 </table>
 
+</div>
 
