@@ -11,7 +11,12 @@
 
 <div align ="center">
 
+# APK Builds
+The given folder link contains all the APK Builds. Supported build may vary based on OS version (preferrably install app-armeabi-v7a-release.apk).
+https://drive.google.com/drive/folders/1NxcV5XX6MBRcqFBw4remwcIEKM7D8VcS?usp=sharing
+	
 # Features
+	
 	
 </div>
 
@@ -65,28 +70,22 @@
 </div>
 <div align ="center">
 <img src="https://img.icons8.com/color/48/000000/dart.png"/>
+<img src="https://img.icons8.com/color/48/000000/flutter.png"/>
 <img src="https://img.icons8.com/color/50/000000/firebase.png"/>
-<img src="https://img.icons8.com/color/65/000000/javascript--v2.png"/>
-<img src="https://img.icons8.com/color/65/000000/html-5--v1.png"/>
 
 </div>
 
-# Local setup
+## Contributors
 
-</div>
-
-## Get started
-
-1. Fork the repository.
-2. Clone the repository (`git clone URL`).
-3. Open the folder in which you cloned the repository.
-4. Run `npm install`.
-5. Run `npm run dev`.
-
-   Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
-
-   By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
-
-   If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
+<br/>
+<table>
+	<tr>
+		<td>
+			<a href="https://github.com/kunaljain0212/Emergency-Vehicle-Notifier/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=kunaljain0212/Emergency-Vehicle-Notifier" />
+</a>
+		</td>
+	</tr>
+</table>
 
 
