@@ -1,13 +1,17 @@
 import 'dart:async';
 // import 'dart:io';
 
+import 'package:emergency_notifier/common/constants.dart';
+import 'package:emergency_notifier/services/directions_service.dart';
 import 'package:emergency_notifier/services/location_service.dart';
+import 'package:emergency_notifier/widgets/address_input.dart';
+import 'package:emergency_notifier/widgets/address_search_bar.dart';
 import 'package:emergency_notifier/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({Key? key}) : super(key: key);
@@ -17,120 +21,207 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
-  // LatLng sourceLatlng = const LatLng(26.233221, 78.207407);
-  // LatLng destinationLatlng = const LatLng(26.2333, 78.2073);
+  Completer<GoogleMapController> mapsController = Completer();
 
-  // final Completer<GoogleMapController> _controller = Completer();
+  Set<Marker> markers = <Marker>{};
+  Set<Polyline> polylines = <Polyline>{};
 
-  // Set<Marker> markers = {};
-  // List<LatLng> polylineCoordinates = [];
-  // late PolylinePoints polylinePoints;
+  LatLng? _origin;
+  LatLng? _destination;
+  String? _placeIdOrigin;
+  String? _placeIdDestination;
 
-  // late StreamSubscription<LocationData> locationSubscription;
-
-  // late LocationData currentLocation;
-  // late LocationData destinationLocation;
-  // late Location location;
+  final TextEditingController _originController = TextEditingController();
+  final TextEditingController _destinationController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     Provider.of<LocationService>(context, listen: false).initialization();
-    // location = Location();
-    // polylinePoints = PolylinePoints();
-
-    // location.onLocationChanged.listen((cLocation) {
-    //   currentLocation = cLocation;
-    // });
   }
 
-  // void setInitalLocation() async {
-  //   currentLocation = await location.getLocation();
-  //   sourceLatlng = LatLng(
-  //       currentLocation.latitude ?? 0.0, currentLocation.longitude ?? 0.0);
-  //   destinationLatlng =
-  //       LatLng(destinationLatlng.latitude, destinationLatlng.longitude);
-  // }
+  void _setMarker(LatLng point, String markerId, String info) {
+    setState(() {
+      markers.add(
+        Marker(
+          markerId: MarkerId(markerId),
+          position: point,
+          infoWindow: InfoWindow(
+            title: info,
+          ),
+        ),
+      );
+    });
+  }
 
-  // void showLocationPins() {
-  //   markers.add(Marker(
-  //     markerId: const MarkerId('currentPosition'),
-  //     position: LatLng(
-  //         currentLocation.latitude ?? 0.0, currentLocation.longitude ?? 0.0),
-  //     icon: BitmapDescriptor.defaultMarker,
-  //     infoWindow: const InfoWindow(
-  //       title: 'Source',
-  //       snippet: 'This is the source location',
-  //     ),
-  //   ));
-  // }
+  void _setPolyline(List<PointLatLng> points) async {
+    final String polylineIdVal = const Uuid().v4();
 
-  // void updatePinsOnMap() async {
-  //   CameraPosition cameraPosition = CameraPosition(
-  //     target: LatLng(
-  //         currentLocation.latitude ?? 0.0, currentLocation.longitude ?? 0.0),
-  //     zoom: 20,
-  //     tilt: 80,
-  //     bearing: 30,
-  //   );
+    polylines.add(
+      Polyline(
+        polylineId: PolylineId(polylineIdVal),
+        width: 4,
+        color: primaryColor,
+        points: points
+            .map(
+              (point) => LatLng(point.latitude, point.longitude),
+            )
+            .toList(),
+      ),
+    );
+  }
 
-  // final GoogleMapController controller = await _controller.future;
+  void _animateCamera(LatLng point) async {
+    final GoogleMapController controller = await mapsController.future;
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: point,
+          zoom: 20,
+          tilt: 80,
+          bearing: 30,
+        ),
+      ),
+    );
+  }
 
-  // controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  Future<void> _goToPlace(
+    Map<String, dynamic> boundsNe,
+    Map<String, dynamic> boundsSw,
+  ) async {
+    final GoogleMapController controller = await mapsController.future;
+    controller.animateCamera(
+      CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+          southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
+          northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
+        ),
+        25,
+      ),
+    );
+  }
 
-  //   setState(() {
-  //     markers.clear();
-  //     markers.add(Marker(
-  //       markerId: const MarkerId('currentPosition'),
-  //       position: LatLng(
-  //           currentLocation.latitude ?? 0.0, currentLocation.longitude ?? 0.0),
-  //       icon: BitmapDescriptor.defaultMarker,
-  //       infoWindow: const InfoWindow(
-  //         title: 'Source',
-  //         snippet: 'This is the source location',
-  //       ),
-  //     ));
-  //   });
-  // }
+  _fetchLocation(TextEditingController txcontroller, bool isOrigin) async {
+    final sessionToken = const Uuid().v4();
+
+    final Map<String, dynamic>? result = await showSearch(
+      context: context,
+      delegate: AddressSearch(
+        sessionToken,
+      ),
+    );
+    if (result != null) {
+      setState(() {
+        txcontroller.text = result['placeData'].description;
+        if (isOrigin) {
+          _origin = LatLng(result['latlng']['lat'], result['latlng']['lng']);
+          _placeIdOrigin = result['placeData'].placeId;
+        } else {
+          _destination =
+              LatLng(result['latlng']['lat'], result['latlng']['lng']);
+          _placeIdDestination = result['placeData'].placeId;
+        }
+        _setMarker(
+          LatLng(
+            result['latlng']['lat'],
+            result['latlng']['lng'],
+          ),
+          sessionToken,
+          isOrigin ? 'Origin' : 'Destination',
+        );
+        _animateCamera(
+          LatLng(
+            result['latlng']['lat'],
+            result['latlng']['lng'],
+          ),
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // CameraPosition initalCameraPosition =
-    //     CameraPosition(target: sourceLatlng, zoom: 20, tilt: 80, bearing: 30);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        elevation: 2,
+        centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(80),
+          child: Row(
+            children: [
+              Column(children: [
+                AddressInput(
+                  icon: Icons.gps_fixed,
+                  controller: _originController,
+                  hint: 'River view colony, morar',
+                  onTap: () => _fetchLocation(_originController, true),
+                  isEnabled: true,
+                ),
+                AddressInput(
+                  icon: Icons.place_sharp,
+                  controller: _destinationController,
+                  hint: 'River view colony, morar',
+                  onTap: () => _fetchLocation(_destinationController, false),
+                  isEnabled: true,
+                ),
+              ]),
+              IconButton(
+                onPressed: () async {
+                  final directions = await DirectionsService(
+                    destination: _destination!,
+                    origin: _origin!,
+                    placeIdDestination: _placeIdDestination!,
+                    placeIdOrigin: _placeIdOrigin!,
+                  ).getDirections();
+
+                  _goToPlace(
+                    directions['bounds_ne'],
+                    directions['bounds_sw'],
+                  );
+
+                  _setPolyline(directions['polyline_decoded']);
+                },
+                icon: const Icon(Icons.directions),
+                color: Colors.white,
+              ),
+            ],
+          ),
+        ),
+      ),
       body: googleMapUI(),
     );
   }
 
   Widget googleMapUI() {
-    return Consumer<LocationService>(builder: (context, model, child) {
-      if (model.locationPosition == null) {
-        return const Center(
-          child: Loading(),
-        );
-      } else {
-        return GoogleMap(
-          mapType: MapType.normal,
-          zoomControlsEnabled: false,
-          compassEnabled: false,
-          buildingsEnabled: true,
-          myLocationEnabled: true,
-          myLocationButtonEnabled: true,
-          initialCameraPosition: CameraPosition(
-            target: model.locationPosition!,
-            zoom: 20,
-            tilt: 80,
-            bearing: 30,
-          ),
-          // markers: markers,
-          onMapCreated: (GoogleMapController controller) {
-            // _controller.complete(controller);
-            // setInitalLocation();
-            // showLocationPins();
-            // updatePinsOnMap();
-          },
-        );
-      }
-    });
+    return Consumer<LocationService>(
+      builder: (context, model, child) {
+        if (model.locationPosition == null) {
+          return const Center(
+            child: Loading(),
+          );
+        } else {
+          return GoogleMap(
+            mapType: MapType.normal,
+            zoomControlsEnabled: false,
+            compassEnabled: false,
+            buildingsEnabled: true,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            markers: markers,
+            polylines: polylines,
+            initialCameraPosition: CameraPosition(
+              target: model.locationPosition!,
+              zoom: 20,
+              tilt: 80,
+              bearing: 30,
+            ),
+            onMapCreated: (GoogleMapController controller) {
+              mapsController.complete(controller);
+            },
+          );
+        }
+      },
+    );
   }
 }

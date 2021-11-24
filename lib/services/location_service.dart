@@ -40,8 +40,9 @@ class LocationService extends ChangeNotifier {
     location.onLocationChanged.listen((LocationData cLocation) {
       _locationPosition =
           LatLng(cLocation.latitude ?? 0.0, cLocation.longitude ?? 0.0);
-      print(_locationPosition);
       notifyListeners();
     });
+
+    return _locationPosition;
   }
 }
