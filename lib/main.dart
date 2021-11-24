@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Muzzle',
+        title: 'Emergency Notifier',
         theme: lightThemeData,
         // darkTheme: darkThemeData,
         routes: {
