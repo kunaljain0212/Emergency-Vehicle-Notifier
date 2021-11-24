@@ -21,6 +21,7 @@ class DirectionsService {
     required this.placeIdDestination,
   });
 
+  //fetch direction b/w Origin & Destination using Google Maps API
   Future<Map<String, dynamic>> getDirections() async {
     debugPrint('DIRECTIONS API: GET DIRECTIONS METHOD');
     final uri = Uri.parse(
