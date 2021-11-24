@@ -6,7 +6,7 @@ import 'package:emergency_notifier/services/directions_service.dart';
 import 'package:emergency_notifier/services/location_service.dart';
 import 'package:emergency_notifier/widgets/address_input.dart';
 import 'package:emergency_notifier/widgets/address_search_bar.dart';
-import 'package:emergency_notifier/widgets/loading.dart';
+import 'package:emergency_notifier/widgets/google_maps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -172,6 +172,7 @@ class _NavigationState extends State<Navigation> {
               ),
               IconButton(
                 onPressed: () async {
+                  print('check for directions');
                   final directions = await DirectionsService(
                     destination: _destination!,
                     origin: _origin!,
@@ -193,39 +194,10 @@ class _NavigationState extends State<Navigation> {
           ),
         ),
       ),
-      body: googleMapUI(),
-    );
-  }
-
-  Widget googleMapUI() {
-    return Consumer<LocationService>(
-      builder: (context, model, child) {
-        if (model.locationPosition == null) {
-          return const Center(
-            child: Loading(),
-          );
-        } else {
-          return GoogleMap(
-            mapType: MapType.normal,
-            zoomControlsEnabled: false,
-            compassEnabled: false,
-            buildingsEnabled: true,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            markers: markers,
-            polylines: polylines,
-            initialCameraPosition: CameraPosition(
-              target: model.locationPosition!,
-              zoom: 20,
-              tilt: 80,
-              bearing: 30,
-            ),
-            onMapCreated: (GoogleMapController controller) {
-              mapsController.complete(controller);
-            },
-          );
-        }
-      },
+      body: CustomGoogleMaps(
+          markers: markers,
+          polylines: polylines,
+          mapsController: mapsController),
     );
   }
 }
