@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,7 +24,7 @@ class PlaceApiProvider {
 
   final String apiKey = dotenv.env['GOOGLE_MAPS_API_KEY'] as String;
   Future<List<Suggestion>> fetchSuggestions(String input) async {
-    print('PLACES API: GET AUTOCOMPLETE SUGGESTIONS');
+    debugPrint('PLACES API: GET AUTOCOMPLETE SUGGESTIONS');
     final uri = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&types=geocode&key=$apiKey&sessiontoken=$sessionToken');
     final response = await http.get(uri);
@@ -45,7 +46,7 @@ class PlaceApiProvider {
 
   //fetch lat and lng using placeId
   Future<Map<String, double>> fetchLatLng(String placeId) async {
-    print('PLACES API: GET PLACE DETAILS USING PLACE ID');
+    debugPrint('PLACES API: GET PLACE DETAILS USING PLACE ID');
     final uri = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/details/json?placeid=$placeId&key=$apiKey');
     final response = await http.get(uri);
