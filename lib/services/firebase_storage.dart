@@ -10,9 +10,11 @@ class Storage {
   Future<String> uploadProfilePicture(String path, File image) async {
     Reference ref = _storage.ref('/profileImages').child(path);
     UploadTask uploadTask = ref.putFile(image);
-    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {
-      debugPrint('Uploaded');
-    });
+    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
+      () {
+        debugPrint('Uploaded');
+      },
+    );
     String url = await taskSnapshot.ref.getDownloadURL();
     return url;
   }
@@ -21,9 +23,11 @@ class Storage {
   Future<String> uploadEmergencyImage(String path, File image) async {
     Reference ref = _storage.ref('/emergencyImages').child(path);
     UploadTask uploadTask = ref.putFile(image);
-    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {
-      debugPrint('Uploaded');
-    });
+    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
+      () {
+        debugPrint('Uploaded');
+      },
+    );
     String url = await taskSnapshot.ref.getDownloadURL();
     return url;
   }
