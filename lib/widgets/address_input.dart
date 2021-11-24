@@ -21,7 +21,7 @@ class AddressInput extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(2),
           child: Icon(
             icon,
             size: 15,
@@ -29,7 +29,7 @@ class AddressInput extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(5, 8, 0, 8),
+          padding: const EdgeInsets.fromLTRB(1, 8, 0, 8),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.8,
             alignment: Alignment.center,
